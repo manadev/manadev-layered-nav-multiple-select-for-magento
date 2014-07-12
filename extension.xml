@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<config>
+    <name>Mana/Filters</name>
+    <type>module</type>
+
+    <!-- modules files for both frontend and backend -->
+    <sync extension-dir="code" project-dir="app/code/local/{Extension/Name}"/>
+    <sync extension-file="module.xml" project-file="app/etc/modules/{Extension_Name}.xml"/>
+    <sync extension-dir="email" project-dir="app/locale/en_US/template/email/{extension_name}"/>
+    <sync extension-file="translate.csv" project-file="app/locale/en_US/{Extension_Name}.csv"/>
+    <sync extension-file="scripts.js" project-file="js/{extension/name}.js"/>
+    <sync extension-dir="scripts" project-dir="js/{extension/name}"/>
+
+    <!-- module frontend files (having impact on store pages) -->
+    <sync extension-file="frontend/layout.xml" project-file="app/design/frontend/base/default/layout/{extension_name}.xml"/>
+    <sync extension-dir="frontend/template" project-dir="app/design/frontend/base/default/template/{extension/name}"/>
+    <sync extension-file="frontend/js/scripts.js" project-file="skin/frontend/base/default/js/{extension_name}.js"/>
+    <sync extension-file="frontend/css/styles.css" project-file="skin/frontend/base/default/css/{extension_name}.css"/>
+    <sync extension-dir="frontend/images" project-dir="skin/frontend/base/default/images/{extension_name}"/>
+
+    <!-- rwd theme module frontend files (having impact on store pages) -->
+    <sync extension-file="rwd/layout.xml" project-file="app/design/frontend/rwd/default/layout/{extension_name}.xml"/>
+    <sync extension-dir="rwd/template" project-dir="app/design/frontend/rwd/default/template/{extension/name}"/>
+    <sync extension-file="rwd/js/scripts.js" project-file="skin/frontend/rwd/default/js/{extension_name}.js"/>
+    <sync extension-file="rwd/css/styles.css" project-file="skin/frontend/rwd/default/css/{extension_name}.css"/>
+    <sync extension-dir="rwd/images" project-dir="skin/frontend/rwd/default/images/{extension_name}"/>
+
+    <!-- module backend files (having impact on Admin Panel) -->
+    <sync extension-file="backend/layout.xml" project-file="app/design/adminhtml/default/default/layout/{extension_name}.xml"/>
+    <sync extension-dir="backend/template" project-dir="app/design/adminhtml/default/default/template/{extension/name}"/>
+    <sync extension-file="backend/js/scripts.js" project-file="skin/adminhtml/default/default/js/{extension_name}.js"/>
+    <sync extension-file="backend/css/styles.css" project-file="skin/adminhtml/default/default/css/{extension_name}.css"/>
+    <sync extension-dir="backend/images" project-dir="skin/adminhtml/default/default/images/{extension_name}"/>
+
+</config>

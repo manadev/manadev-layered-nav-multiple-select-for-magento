@@ -1,0 +1,22 @@
+/**
+ * @category    Mana
+ * @package     Mana_Filters
+ * @copyright   Copyright (c) http://www.manadev.com
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+/*.m-filter-item-list .m-selected-filter-item { color: red; }*/
+.m-filter-popup .m-selected-ln-item > a { font-weight: bold; text-decoration: none; }
+.block-layered-nav .btn-remove { margin-top: 3px; }
+.block-layered-nav .currently li { position: relative; }
+.block-layered-nav .currently .btn-remove { margin-top: -10px; position: absolute; right: 0; top: 50%; margin-left: 0; }
+.block-layered-nav dt { position: relative; zoom: 1; left: 0; top: 0; }
+.block.block-layered-nav dl dd ol > li > span, .block.block-layered-nav dl dd ol > li > a { padding: 0; }
+
+.block-layered-nav label { font-family: "Helvetica Neue", Verdana, Arial, sans-serif; line-height: 1.5;
+    font-size: 14px; color: #3399cc; }
+
+@media only screen and (max-width: 770px) {
+    .block-layered-nav dl dd ol > li { background-color: #f4f4f4; padding: 3px 5px; margin: 5px 0; }
+    .block-layered-nav dl dd ol > li:hover { background-color: #e7e7e7; }
+    .block-layered-nav dl dd ol > li > a, .block-layered-nav dl dd ol > li > span { margin: 0; }
+}

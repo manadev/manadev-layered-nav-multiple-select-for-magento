@@ -1,0 +1,47 @@
+<?php 
+/**
+ * @category    Mana
+ * @package     Mana_Filters
+ * @copyright   Copyright (c) http://www.manadev.com
+ * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+/** 
+ * Template for showing options for filter as a HTML list 
+ * @author Mana Team
+ * Injected instead of standard catalog/layer/filter.phtml in Mana_Filters_Block_Filter_Attribute constructor.
+ * This template is overridden by copying (template body was pasted from catalog/layer/filter.phtml 
+ * and modified as needed). All changes are marked with comments.
+ */
+/* @var $this Mana_Filters_Block_Filter_Attribute */
+?>
+<?php echo Mage::helper('mana_core')->getNamedHtml('mana_filters/markup', 'before_items', array('block' => $this)) ?>
+<ol class="m-filter-item-list <?php echo $this->getFilterOptions()->getIsReverse() ? 'm-reverse' : '' ?>">
+<?php foreach ($this->getItems() as $_item): ?>
+    <li <?php if ($_item->getMShowSelected()): ?>class="m-selected-ln-item"<?php endif; ?>>
+        <?php // MANA BEGIN ?>
+        <?php if ($_item->getMSelected()): ?>
+        	<span class="m-selected-filter-item"><?php echo $this->escapeHtml($_item->getLabel()) ?>
+        <?php else : ?>
+	        <?php if (!$this->getFilterOptions()->getDisableNoResultOptions() || $_item->getCount() > 0 || $_item->getMSelected()): ?>
+	        <a href="<?php echo $this->urlEscape($_item->getReplaceUrl()) ?>" title="<?php echo $this->escapeHtml($_item->getLabel()) ?>"><?php echo $this->escapeHtml($_item->getLabel()) ?>
+	        <?php else: ?>
+	            <span><?php echo $this->escapeHtml($_item->getLabel()) ?>
+	        <?php endif; ?>
+        <?php endif; ?>
+        <?php // MANA END ?>
+        <?php if (Mage::getStoreConfigFlag('mana_filters/display/count')) : ?>
+            <span class="count">(<?php echo $_item->getCount() ?>)</span>
+        <?php endif; ?>
+        <?php if ($_item->getMSelected()): ?>
+        	</span>
+        <?php else : ?>
+	        <?php if (!$this->getFilterOptions()->getDisableNoResultOptions() || $_item->getCount() > 0 || $_item->getMSelected()): ?>
+	            </a>
+	        <?php else: ?>
+                </span>
+	        <?php endif; ?>
+        <?php endif; ?>
+    </li>
+<?php endforeach ?>
+</ol>
+<?php echo Mage::helper('mana_core')->getNamedHtml('mana_filters/markup', 'after_items', array('block' => $this)) ?>
