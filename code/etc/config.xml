@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+@category    Mana
+@package     Mana_Filters
+@copyright   Copyright (c) http://www.manadev.com
+@license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ -->
+<!-- BASED ON SNIPPET: New Module/etc/config.xml -->
+<config>
+	<!-- This section registers module with Magento system. -->
+	<modules>
+		<Mana_Filters>
+		  	<!-- This version number identifies version of database tables specific to this extension. It is written to
+		  	core_resource table.  -->
+		    <version>14.07.07.16</version>
+		</Mana_Filters>
+	</modules>
+	
+	<!-- This section contains module settings which are merged into global configuration during each page load, 
+	each ajax request. -->
+	<global>
+		<!-- This section registers helper classes to be accessible through Mage::helper() method. Mana_Filters_Helper_Data
+		class is accessible through Mage::helper('mana_filters') call, other Mana_Filters_Helper_XXX_YYY classes are accessible 
+		through  Mage::helper('mana_filters/xxx_yyy') call. -->
+		<helpers>
+			<mana_filters>
+				<!-- This says that string 'mana_filters' corresponds to Mana_Filters_Helper pseudo-namespace in 
+				Mage::helper() calls. -->
+				<class>Mana_Filters_Helper</class>
+			</mana_filters>
+		</helpers>
+		
+		<!-- BASED ON SNIPPET: Blocks/Block support (config.xml) -->
+		<!-- This section registers helper classes to be accessible from layout XML files (in type="<block type>") or 
+		through calls to $this->getLayout()->createBlock('<block type>') in block or controller code. That is, 
+		Mana_Filters_Block_XXX_YYY classes are accessible as 'mana_filters/xxx_yyy' type strings both in layout files
+		and in createBlock() calls. -->
+		<blocks>
+			<!-- This says that string 'mana_filters' corresponds to Mana_Filters_Block pseudo-namespace in 
+			layout xml files and in createBlock() calls. -->
+			<mana_filters>
+				<class>Mana_Filters_Block</class>
+			</mana_filters>
+		</blocks>
+		
+		<!-- BASED ON SNIPPET: Models/Model support (config.xml) -->
+		<!-- This section registers model classes to be accessible through Mage::getModel('<model type>') and through
+		Mage::getSingleton('<model type>') calls. That is, Mana_Filters_Model_XXX_YYY classes are accessible as 
+		'mana_filters/xxx_yyy' type strings both in getModel() and getSingleton() calls. -->
+		<models>
+			<!-- This says that string 'mana_filters' corresponds to Mana_Filters_Model pseudo-namespace in 
+			getModel() and getSingleton() calls. -->
+			<mana_filters>
+				<class>Mana_Filters_Model</class>
+				<!-- BASED ON SNIPPET: Resources/Declare resource section (config.xml) -->
+				<!-- This tells Magento to read config/global/models/mana_filters_resources sections and register
+				resource model information from there -->
+				<resourceModel>mana_filters_resources</resourceModel>
+				<!-- INSERT HERE: resource section name -->
+			</mana_filters>
+
+			<enterprise_search>
+                <rewrite>
+                    <adapter_httpStream>Mana_Filters_Model_Solr_Adapter_HttpStream</adapter_httpStream>
+                    <adapter_phpExtension>Mana_Filters_Model_Solr_Adapter_PhpExtension</adapter_phpExtension>
+                </rewrite>
+			</enterprise_search>
+            <enterprise_search_resource>
+                <rewrite>
+                    <collection>Mana_Filters_Resource_Solr_Collection</collection>
+                    <engine>Mana_Filters_Resource_Solr_Engine</engine>
+                </rewrite>
+            </enterprise_search_resource>
+			<!-- BASED ON SNIPPET: Resources/Resource support (config.xml) -->
+			<!-- This says that string 'mana_filters' corresponds to Mana_Filters_Resource pseudo-namespace in 
+			getResourceModel() calls. -->
+			<mana_filters_resources>
+				<class>Mana_Filters_Resource</class>
+				<entities>
+					<filter><table>m_filter</table></filter>
+					<filter2><table>m_filter2</table><replicable>1</replicable></filter2>
+					<filter2_store><table>m_filter2_store</table><replicable>1</replicable></filter2_store>
+					<filter2_value><table>m_filter2_value</table><replicable>1</replicable></filter2_value>
+					<filter2_value_store><table>m_filter2_value_store</table><replicable>1</replicable></filter2_value_store>
+					<!-- INSERT HERE: table-entity mappings -->
+				</entities>
+			</mana_filters_resources>
+
+			<catalog_resource_eav_mysql4>
+                <rewrite>
+                    <product_indexer_eav_source>Mana_Filters_Resource_Indexer_Source</product_indexer_eav_source>
+                </rewrite>
+			</catalog_resource_eav_mysql4>
+            <!-- INSERT HERE: rewrites, ... -->
+		</models>
+		
+		<!-- BASED ON SNIPPET: Resources/Installation script support (config.xml) -->
+		<!-- This tells Magento to analyze sql/mana_filters_setup directory for install/upgrade scripts. 
+		Installation scripts should be named as 'mysql4-install-<new version>.php'. 
+		Upgrade scripts should be named as mysql4-upgrade-<current version>-<new version>.php -->
+		<resources>
+			<mana_filters_setup>
+				<setup>
+					<module>Mana_Filters</module>
+					<class>Mana_Filters_Resource_Setup</class>
+				</setup>
+			</mana_filters_setup>
+		</resources>
+
+		<!-- BASED ON SNIPPET: New Models/Event support (config.xml) -->
+		<!-- This section registers event handlers of this module defined in Mana_Filters_Model_Observer with events defined in other
+		module throughout the system. So when some code in other module invokes an event mentioned in this section, handler
+		method of Mana_Filters_Model_Observer class gets called. -->
+		<events>
+			<!-- BASED ON SNIPPET: Models/Event handler (config.xml) -->
+			<m_db_is_config_changed><!-- this is event name this module listens for -->
+				<observers>
+					<mana_filters>
+						<class>mana_filters/observer</class> <!-- model name of class containing event handler methods -->
+						<method>isConfigChanged</method> <!-- event handler method name -->
+					</mana_filters>
+				</observers>
+			</m_db_is_config_changed>
+            <catalog_entity_attribute_save_commit_after><!-- this is event name this module listens for -->
+                <observers>
+                    <mana_filters>
+                        <class>mana_filters/observer</class>
+                        <!-- model name of class containing event handler methods -->
+                        <method>afterCatalogAttributeSave</method>
+                        <!-- event handler method name -->
+                    </mana_filters>
+                </observers>
+            </catalog_entity_attribute_save_commit_after>
+            <prepare_catalog_product_index_select><!-- this is event name this module listens for -->
+                <observers>
+                    <mana_filters>
+                        <class>mana_filters/observer</class>
+                        <!-- model name of class containing event handler methods -->
+                        <method>fixAttributeIndexerSelectForConfigurableProductDefaultValues</method>
+                        <!-- event handler method name -->
+                    </mana_filters>
+                </observers>
+            </prepare_catalog_product_index_select>
+            <core_block_abstract_to_html_after><!-- this is event name this module listens for -->
+                <observers>
+                    <mana_filters>
+                        <class>mana_filters/observer</class>
+                        <!-- model name of class containing event handler methods -->
+                        <method>hideCmsContentOnFilteredPages</method>
+                        <!-- event handler method name -->
+                    </mana_filters>
+                </observers>
+            </core_block_abstract_to_html_after>
+		</events>
+		<!-- INSERT HERE: blocks, models, ... -->
+	</global>
+	
+	<!-- BASED ON SNIPPET: Static Visuals/Frontend section (config.xml) -->
+	<!-- This section enables static visual changes in store frontend. -->
+	<frontend>
+		<!-- BASED ON SNIPPET: Static Visuals/Layout file support (config.xml) -->
+		<!-- This section registers additional layout XML file with our module-specific layout changes to be loaded
+		and executes during page rendering. -->
+		<layout>
+			<updates>
+				<mana_filters>
+					<file>mana_filters.xml</file>
+				</mana_filters>
+			</updates>
+		</layout>
+		<!-- BASED ON SNIPPET: Translation support/Frontend (config.xml) -->
+		<!-- This section registers additional translation file with our module-specific strings to be loaded 
+		during frontend request processing -->
+		<translate>
+			<modules>
+				<Mana_Filters>
+					<files>
+						<default>Mana_Filters.csv</default>
+					</files>
+				</Mana_Filters>
+			</modules>
+		</translate>
+		<!-- INSERT HERE: layout, translate, routers -->
+	</frontend>
+	<!-- BASED ON SNIPPET: Static Visuals/Adminhtml section (config.xml) -->
+	<!-- This section enables static visual changes in admin area. -->
+	<adminhtml>
+		<!-- BASED ON SNIPPET: Translation support/Adminhtml (config.xml) -->
+		<!-- This section registers additional translation file with our module-specific strings to be loaded 
+		during admin area request processing -->
+		<translate>
+			<modules>
+				<Mana_Filters>
+					<files>
+						<default>Mana_Filters.csv</default>
+					</files>
+				</Mana_Filters>
+			</modules>
+		</translate>
+		<!-- INSERT HERE: layout, translate, routers -->
+	</adminhtml>
+	<!-- INSERT HERE: adminhtml, frontend, ... -->
+	
+	<!-- This section provides default values for global configuration -->
+	<default>
+		<mana_filters>
+			<display>
+				<attribute>list</attribute>
+				<price>list</price>
+				<category>standard</category>
+				<decimal>list</decimal>
+                <count>1</count>
+            </display>
+			<general>
+				<is_multiselect>1</is_multiselect>
+				<adjust_configurable_price>1</adjust_configurable_price>
+			</general>
+			<session>
+				<save_applied_filters>0</save_applied_filters>
+			</session>
+		</mana_filters>
+	</default>
+	<!-- This section enumerates configuration based extensibility points and provides default entries -->
+	<mana_filters>
+		<display><!-- display options for individual filters -->
+			<attribute> <!-- available display options for attribute-based filters -->
+				<!-- by default, filter items are displayed as HTML list -->
+				<list translate="title" module="mana_filters">
+					<title>Text (Multiple Select Enabled)</title><!-- this one is displayed in admin -->
+					<block>mana_filters/filter</block>
+					<model>mana_filters/filter_attribute</model>
+                    <solr_model>mana_filters/solr_attribute</solr_model>
+                    <solr_and_model>mana_filters/solr_and_attribute</solr_and_model>
+                    <solr_reverse_model>mana_filters/solr_reverse_attribute</solr_reverse_model>
+                    <resource>mana_filters/filter_attribute</resource>
+					<and_resource>mana_filters/filter_and_attribute</and_resource>
+					<reverse_resource>mana_filters/filter_reverse_attribute</reverse_resource>
+					<template>mana/filters/items/list.phtml</template><!-- PHTML to be rendered -->
+					<sort_order>50</sort_order><!-- Position in "Display as" list. The item with least position is the default one. -->
+                    <popup_class>Mana/LayeredNavigation/Popup/List</popup_class>
+                </list>
+				<standard translate="title" module="mana_filters">
+					<title>Text (One Item Can Be Selected At A Time)</title><!-- this one is displayed in admin -->
+					<block>mana_filters/filter</block>
+					<model>mana_filters/filter_attribute</model>
+                    <solr_model>mana_filters/solr_attribute</solr_model>
+                    <solr_and_model>mana_filters/solr_and_attribute</solr_and_model>
+                    <solr_reverse_model>mana_filters/solr_reverse_attribute</solr_reverse_model>
+                    <resource>mana_filters/filter_attribute</resource>
+					<and_resource>mana_filters/filter_and_attribute</and_resource>
+					<reverse_resource>mana_filters/filter_reverse_attribute</reverse_resource>
+					<template>mana/filters/items/standard.phtml</template><!-- PHTML to be rendered -->
+					<sort_order>100</sort_order><!-- Position in "Display as" list. The item with least position is the default one. -->
+                    <popup_class>Mana/LayeredNavigation/Popup/Standard</popup_class>
+                </standard>
+			</attribute>
+			<price> <!-- available display options for price filter -->
+				<!-- by default, filter items are displayed as HTML list -->
+				<list translate="title" module="mana_filters">
+					<title>Text (Multiple Select Enabled)</title><!-- this one is displayed in admin -->
+					<block>mana_filters/filter</block>
+					<model>mana_filters/filter_price</model>
+					<solr_model>mana_filters/solr_price</solr_model>
+					<solr_reverse_model>mana_filters/solr_reverse_price</solr_reverse_model>
+					<resource>mana_filters/filter_price</resource>
+					<reverse_resource>mana_filters/filter_reverse_price</reverse_resource>
+					<template>mana/filters/items/list.phtml</template><!-- PHTML to be rendered -->
+					<sort_order>50</sort_order><!-- Position in "Display as" list. The item with least position is the default one. -->
+                    <popup_class>Mana/LayeredNavigation/Popup/List</popup_class>
+                </list>
+				<standard translate="title" module="mana_filters">
+					<title>Text (One Item Can Be Selected At A Time)</title><!-- this one is displayed in admin -->
+					<block>mana_filters/filter</block>
+					<model>mana_filters/filter_price</model>
+					<solr_model>mana_filters/solr_price</solr_model>
+					<solr_reverse_model>mana_filters/solr_reverse_price</solr_reverse_model>
+					<resource>mana_filters/filter_price</resource>
+					<reverse_resource>mana_filters/filter_reverse_price</reverse_resource>
+					<template>mana/filters/items/standard.phtml</template><!-- PHTML to be rendered -->
+					<sort_order>100</sort_order><!-- Position in "Display as" list. The item with least position is the default one. -->
+                    <popup_class>Mana/LayeredNavigation/Popup/Standard</popup_class>
+                </standard>
+			</price>
+			<category> <!-- available display options for category filter -->
+				<!-- by default, filter items are displayed as HTML list -->
+				<standard translate="title" module="mana_filters">
+					<title>Text (One Item Can Be Selected At A Time)</title><!-- this one is displayed in admin -->
+					<block>mana_filters/filter</block>
+					<model>mana_filters/filter_category</model>
+					<solr_model>mana_filters/solr_category</solr_model>
+					<template>mana/filters/items/standard.phtml</template><!-- PHTML to be rendered -->
+					<sort_order>100</sort_order><!-- Position in "Display as" list. The item with least position is the default one. -->
+                    <popup_class>Mana/LayeredNavigation/Popup/Standard</popup_class>
+                </standard>
+			</category>
+			<decimal> <!-- available display options for decimal filters -->
+				<!-- by default, filter items are displayed as HTML list -->
+				<list translate="title" module="mana_filters">
+					<title>Text (Multiple Select Enabled)</title><!-- this one is displayed in admin -->
+					<block>mana_filters/filter</block>
+                    <model>mana_filters/filter_decimal</model>
+                    <solr_model>mana_filters/solr_decimal</solr_model>
+                    <solr_reverse_model>mana_filters/solr_reverse_decimal</solr_reverse_model>
+                    <resource>mana_filters/filter_decimal</resource>
+                    <reverse_resource>mana_filters/filter_reverse_decimal</reverse_resource>
+					<template>mana/filters/items/list.phtml</template><!-- PHTML to be rendered -->
+					<sort_order>50</sort_order><!-- Position in "Display as" list. The item with least position is the default one. -->
+                    <popup_class>Mana/LayeredNavigation/Popup/List</popup_class>
+                </list>
+				<standard translate="title" module="mana_filters">
+					<title>Text (One Item Can Be Selected At A Time)</title><!-- this one is displayed in admin -->
+					<block>mana_filters/filter</block>
+                    <model>mana_filters/filter_decimal</model>
+                    <solr_model>mana_filters/solr_decimal</solr_model>
+                    <solr_reverse_model>mana_filters/solr_reverse_decimal</solr_reverse_model>
+                    <resource>mana_filters/filter_decimal</resource>
+                    <reverse_resource>mana_filters/filter_reverse_decimal</reverse_resource>
+					<template>mana/filters/items/standard.phtml</template><!-- PHTML to be rendered -->
+					<sort_order>100</sort_order><!-- Position in "Display as" list. The item with least position is the default one. -->
+                    <popup_class>Mana/LayeredNavigation/Popup/Standard</popup_class>
+                </standard>
+			</decimal>
+		</display>
+	
+	</mana_filters>
+</config>

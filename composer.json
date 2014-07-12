@@ -1,0 +1,9 @@
+{
+    "name": "manadev/magento-filters",
+    "type": "magento-module",
+    "description": "Enables store customer to apply multiple values of the same filter criteria.",
+    "require": {
+        "manadev/magento-core": "dev-master",
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}
