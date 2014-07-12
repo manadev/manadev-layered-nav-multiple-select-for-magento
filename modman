@@ -1,0 +1,8 @@
+code                               app/code/local/Mana/Filters
+module.xml                         app/etc/modules/Mana_Filters.xml
+translate.csv                      app/locale/en_US/Mana_Filters.csv
+frontend/template                  app/design/frontend/base/default/template/Mana/Filters
+frontend/css/styles.css            skin/frontend/base/default/css/Mana_Filters.css
+frontend/layout.xml                app/design/frontend/base/default/layout/Mana_Filters.xml
+rwd/layout.xml                     app/design/frontend/rwd/default/layout/Mana_Filters.xml
+rwd/template                       app/design/frontend/rwd/default/template/Mana/Filters
